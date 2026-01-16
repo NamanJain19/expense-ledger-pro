@@ -1,6 +1,7 @@
 import { LogOut, Wallet } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
+import { ThemeToggle } from './ThemeToggle';
 
 export const Header = () => {
   const { user, signOut } = useAuth();
@@ -14,10 +15,11 @@ export const Header = () => {
           </div>
           <h1 className="text-xl font-bold">Expense Tracker</h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <span className="text-sm text-muted-foreground hidden sm:block">
             {user?.email}
           </span>
+          <ThemeToggle />
           <Button
             variant="outline"
             size="sm"
