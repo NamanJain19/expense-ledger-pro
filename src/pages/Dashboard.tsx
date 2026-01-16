@@ -11,12 +11,8 @@ import { TransactionFilters } from '@/components/dashboard/TransactionFilters';
 import { BudgetSettings } from '@/components/dashboard/BudgetSettings';
 import { SpendingCharts } from '@/components/dashboard/SpendingCharts';
 import { ExportButton } from '@/components/dashboard/ExportButton';
-import { CategoryManager } from '@/components/dashboard/CategoryManager';
-import { RecurringTransactionManager } from '@/components/dashboard/RecurringTransactionManager';
-import { YearlyReport } from '@/components/dashboard/YearlyReport';
 import { Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -28,8 +24,7 @@ const Dashboard = () => {
     updateTransaction,
     deleteTransaction,
     totals,
-    balance,
-    refetch: refetchTransactions
+    balance
   } = useTransactions();
 
   const { budget, setBudget, checkBudgetStatus } = useBudget();
@@ -90,7 +85,7 @@ const Dashboard = () => {
       .reduce((sum, t) => sum + Number(t.amount), 0);
   }, [transactions]);
 
-  // Budget alert - only show once on load
+  // Budget alert
   useEffect(() => {
     const status = checkBudgetStatus(currentMonthExpense);
     if (status?.status === 'exceeded') {
@@ -105,7 +100,7 @@ const Dashboard = () => {
         description: status.message
       });
     }
-  }, []);
+  }, [currentMonthExpense, checkBudgetStatus]);
 
   const clearFilters = () => {
     setSearchQuery('');
@@ -155,72 +150,46 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:inline-grid">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="transactions">Transactions</TabsTrigger>
-              <TabsTrigger value="reports">Reports</TabsTrigger>
-              <TabsTrigger value="settings">Settings</TabsTrigger>
-            </TabsList>
+          <div className="space-y-6">
+            {/* Balance Cards */}
+            <BalanceCards
+              balance={balance}
+              income={totals.income}
+              expense={totals.expense}
+            />
 
-            <TabsContent value="overview" className="space-y-6">
-              {/* Balance Cards */}
-              <BalanceCards
-                balance={balance}
-                income={totals.income}
-                expense={totals.expense}
-              />
+            {/* Budget Settings */}
+            <BudgetSettings
+              monthlyLimit={budget.monthlyLimit}
+              alertThreshold={budget.alertThreshold}
+              currentExpense={currentMonthExpense}
+              onSave={setBudget}
+            />
 
-              {/* Budget Settings */}
-              <BudgetSettings
-                monthlyLimit={budget.monthlyLimit}
-                alertThreshold={budget.alertThreshold}
-                currentExpense={currentMonthExpense}
-                onSave={setBudget}
-              />
+            {/* Spending Charts */}
+            <SpendingCharts transactions={transactions} />
 
-              {/* Spending Charts */}
-              <SpendingCharts transactions={transactions} />
-            </TabsContent>
+            {/* Filters */}
+            <TransactionFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              dateRange={dateRange}
+              onDateRangeChange={setDateRange}
+              categoryFilter={categoryFilter}
+              onCategoryChange={setCategoryFilter}
+              typeFilter={typeFilter}
+              onTypeChange={setTypeFilter}
+              onClearFilters={clearFilters}
+            />
 
-            <TabsContent value="transactions" className="space-y-6">
-              {/* Filters */}
-              <TransactionFilters
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                dateRange={dateRange}
-                onDateRangeChange={setDateRange}
-                categoryFilter={categoryFilter}
-                onCategoryChange={setCategoryFilter}
-                typeFilter={typeFilter}
-                onTypeChange={setTypeFilter}
-                onClearFilters={clearFilters}
-              />
-
-              {/* Transaction List */}
-              <TransactionList
-                transactions={filteredTransactions}
-                loading={transactionsLoading}
-                onUpdate={updateTransaction}
-                onDelete={deleteTransaction}
-              />
-            </TabsContent>
-
-            <TabsContent value="reports" className="space-y-6">
-              {/* Yearly Report */}
-              <YearlyReport transactions={transactions} />
-            </TabsContent>
-
-            <TabsContent value="settings" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Category Manager */}
-                <CategoryManager />
-
-                {/* Recurring Transactions */}
-                <RecurringTransactionManager />
-              </div>
-            </TabsContent>
-          </Tabs>
+            {/* Transaction List */}
+            <TransactionList
+              transactions={filteredTransactions}
+              loading={transactionsLoading}
+              onUpdate={updateTransaction}
+              onDelete={deleteTransaction}
+            />
+          </div>
         </main>
       </div>
     </div>
