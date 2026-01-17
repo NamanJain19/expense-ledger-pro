@@ -1,8 +1,8 @@
-# Welcome to your Lovable project
+# Welcome to your Expoanse Tracker project
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**URL**: https://expance-tracker19.lovable.app
 
 ## How can I edit this code?
 
@@ -62,9 +62,9 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Simply open (https://expance-tracker19.lovable.app) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain to my Expanse Tracker project?
 
 Yes, you can!
 
