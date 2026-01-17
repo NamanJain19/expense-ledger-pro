@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      bill_reminders: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          due_date: string
+          frequency: string
+          id: string
+          is_active: boolean
+          last_notified_at: string | null
+          notify_days_before: number
+          title: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          due_date: string
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          last_notified_at?: string | null
+          notify_days_before?: number
+          title: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          due_date?: string
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          last_notified_at?: string | null
+          notify_days_before?: number
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           color: string
@@ -110,6 +152,48 @@ export type Database = {
         }
         Relationships: []
       }
+      savings_goals: {
+        Row: {
+          color: string
+          created_at: string
+          current_amount: number
+          icon: string
+          id: string
+          is_completed: boolean
+          target_amount: number
+          target_date: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          current_amount?: number
+          icon?: string
+          id?: string
+          is_completed?: boolean
+          target_amount: number
+          target_date?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          current_amount?: number
+          icon?: string
+          id?: string
+          is_completed?: boolean
+          target_amount?: number
+          target_date?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number
@@ -139,6 +223,42 @@ export type Database = {
           id?: string
           title?: string
           type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          budget_alert_threshold: number
+          created_at: string
+          currency: string
+          currency_symbol: string
+          email_notifications: boolean
+          id: string
+          monthly_budget: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          budget_alert_threshold?: number
+          created_at?: string
+          currency?: string
+          currency_symbol?: string
+          email_notifications?: boolean
+          id?: string
+          monthly_budget?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          budget_alert_threshold?: number
+          created_at?: string
+          currency?: string
+          currency_symbol?: string
+          email_notifications?: boolean
+          id?: string
+          monthly_budget?: number
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

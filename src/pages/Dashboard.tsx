@@ -14,6 +14,10 @@ import { ExportButton } from '@/components/dashboard/ExportButton';
 import { CategoryManager } from '@/components/dashboard/CategoryManager';
 import { RecurringTransactionManager } from '@/components/dashboard/RecurringTransactionManager';
 import { YearlyReport } from '@/components/dashboard/YearlyReport';
+import { MonthlySummary } from '@/components/dashboard/MonthlySummary';
+import { SavingsGoalsManager } from '@/components/dashboard/SavingsGoalsManager';
+import { BillRemindersManager } from '@/components/dashboard/BillRemindersManager';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 import { Loader2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -33,6 +37,7 @@ const Dashboard = () => {
   } = useTransactions();
 
   const { budget, setBudget, checkBudgetStatus } = useBudget();
+  const { preferences } = useUserPreferences();
 
   // Filters state
   const [searchQuery, setSearchQuery] = useState('');
@@ -207,17 +212,20 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="reports" className="space-y-6">
+              {/* Monthly Summary */}
+              <MonthlySummary transactions={transactions} />
+              
               {/* Yearly Report */}
               <YearlyReport transactions={transactions} />
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Category Manager */}
-                <CategoryManager />
+                {/* Savings Goals */}
+                <SavingsGoalsManager />
 
-                {/* Recurring Transactions */}
-                <RecurringTransactionManager />
+                {/* Bill Reminders */}
+                <BillRemindersManager />
               </div>
             </TabsContent>
           </Tabs>
