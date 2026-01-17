@@ -1,4 +1,4 @@
-# Welcome to your Expoanse Tracker project
+# Welcome to your Expanse Tracker project
 
 ## Project info
 
