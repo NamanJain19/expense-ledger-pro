@@ -1,5 +1,6 @@
 import { TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 
 interface BalanceCardsProps {
   balance: number;
@@ -7,15 +8,9 @@ interface BalanceCardsProps {
   expense: number;
 }
 
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-  }).format(amount);
-};
-
 export const BalanceCards = ({ balance, income, expense }: BalanceCardsProps) => {
+  const { formatCurrency } = useUserPreferences();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
       {/* Balance Card */}
