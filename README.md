@@ -78,7 +78,21 @@ This project is built with a **professional fintech-style UI**, supports **India
 - Backend: Render / Railway
 - Database: MongoDB Atlas
 
+
 ---
+
+## 🧠 Learning Outcomes
+
+- Full-stack application development
+- REST API design and integration
+- User authentication and authorization
+- Financial data management and visualization
+- UI/UX design for dashboard-based applications
+- Real-world problem solving
+
+---
+
+
 
 ## 📂 Project Structure (High Level)
 
