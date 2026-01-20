@@ -91,7 +91,17 @@ This project is built with a **professional fintech-style UI**, supports **India
 - Real-world problem solving
 
 ---
+Future Enhancements
 
+Mobile app version
+Cloud sync across devices
+Advanced analytics & AI insights
+Export data to PDF / Excel
+
+👨‍🎓 Author
+
+Naman Jain
+BCA Student | Web Designer | Full-Stack Developer
 
 
 ## 📂 Project Structure (High Level)
