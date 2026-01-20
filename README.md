@@ -1,73 +1,84 @@
-# Welcome to your Expanse Tracker project
+# 💰 Expense Tracker – Full-Stack Finance Management Web App
 
-## Project info
+🔗 **Live Website:** https://expance-tracker19.lovable.app  
 
-**URL**: https://expance-tracker19.lovable.app
+The **Expense Tracker** is a modern, feature-rich **full-stack web application** designed to help users manage their personal finances efficiently. It allows users to track income and expenses, set monthly budgets, manage savings goals, receive bill reminders, and analyze spending patterns through interactive charts and summaries.
 
-## How can I edit this code?
+This project is built with a **professional fintech-style UI**, supports **Indian Rupees (₹)** as the default currency, and includes **multi-currency conversion**, making it suitable for real-world usage, academic projects, and professional portfolios.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🚀 Key Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 📊 Expense & Income Management
+- Add, edit, and delete income and expense transactions
+- Real-time balance calculation
+- Category-wise expense tracking
+- Persistent data storage
 
-Changes made via Lovable will be committed automatically to this repo.
+### 💸 Budget Management
+- Set monthly budget limits
+- Automatic alert when budget exceeds ⚠️
+- Visual budget usage indicator
 
-**Use your preferred IDE**
+### ⏰ Bill Reminders & Notifications
+- Add bills with due dates and recurrence
+- Email notifications for upcoming bills
+- Browser / push notification support (where available)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🎯 Savings Goal Tracking
+- Set savings goals (e.g., Emergency Fund, Travel)
+- Track progress visually with progress bars
+- View remaining amount and completion percentage
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 🌍 Multi-Currency Support
+- Default currency: Indian Rupees (₹)
+- Supports USD, EUR, GBP
+- Automatic exchange rate conversion
+- Consistent currency display across dashboard & charts
 
-Follow these steps:
+### 📈 Data Visualization
+- Pie Chart → Category-wise expenses
+- Bar Chart → Monthly expense trends
+- Monthly and yearly financial summaries 📅
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 👤 Profile & Settings
+- User profile section (name, email, avatar)
+- Settings page to manage:
+  - Currency preferences
+  - Budget limits
+  - Notification preferences
+  - Theme options (Dark / Light)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 📱 Responsive Design
+- Fully responsive UI
+- Optimized for mobile, tablet, and desktop devices
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🛠️ Tech Stack
 
-**Edit a file directly in GitHub**
+### Frontend
+- HTML5
+- CSS3 (Flexbox, Grid, Responsive Design)
+- JavaScript (ES6)
+- Chart.js for data visualization
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Backend
+- Node.js
+- Express.js
+- RESTful APIs
+- JWT Authentication
 
-**Use GitHub Codespaces**
+### Database
+- MongoDB (MongoDB Atlas)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Deployment
+- Frontend: Lovable / Vercel / Netlify
+- Backend: Render / Railway
+- Database: MongoDB Atlas
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 📂 Project Structure (High Level)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open (https://expance-tracker19.lovable.app) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Expanse Tracker project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
