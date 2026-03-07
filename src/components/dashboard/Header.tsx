@@ -1,4 +1,4 @@
-import { LogOut, Wallet, Settings } from 'lucide-react';
+import { LogOut, Wallet, Settings, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import { ThemeToggle } from './ThemeToggle';
@@ -17,24 +17,33 @@ export const Header = () => {
           <h1 className="text-xl font-bold">Expense Tracker</h1>
         </Link>
         <div className="flex items-center gap-2 sm:gap-4">
-          <span className="text-sm text-muted-foreground hidden sm:block">
-            {user?.email}
-          </span>
+          {user && (
+            <span className="text-sm text-muted-foreground hidden sm:block">
+              {user.email}
+            </span>
+          )}
           <ThemeToggle />
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/settings">
-              <Settings className="w-4 h-4" />
-            </Link>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={signOut}
-            className="gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Sign Out</span>
-          </Button>
+          {user ? (
+            <>
+              <Button variant="ghost" size="icon" asChild>
+                <Link to="/settings">
+                  <Settings className="w-4 h-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" onClick={signOut} className="gap-2">
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline">Sign Out</span>
+              </Button>
+            </>
+          ) : (
+            <Button variant="outline" size="sm" asChild className="gap-2">
+              <Link to="/auth">
+                <LogIn className="w-4 h-4" />
+                <span className="hidden sm:inline">Sign In / Create Account</span>
+                <span className="sm:hidden">Sign In</span>
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

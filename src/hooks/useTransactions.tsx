@@ -22,14 +22,30 @@ export interface TransactionInput {
   date: string;
 }
 
+const GUEST_STORAGE_KEY = 'expense-tracker-guest-transactions';
+
+const getGuestTransactions = (): Transaction[] => {
+  try {
+    const stored = localStorage.getItem(GUEST_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveGuestTransactions = (transactions: Transaction[]) => {
+  localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(transactions));
+};
+
 export const useTransactions = () => {
   const { user } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
+  const isGuest = !user;
 
   const fetchTransactions = useCallback(async () => {
-    if (!user) {
-      setTransactions([]);
+    if (isGuest) {
+      setTransactions(getGuestTransactions());
       setLoading(false);
       return;
     }
@@ -51,104 +67,102 @@ export const useTransactions = () => {
       setTransactions(data as Transaction[]);
     }
     setLoading(false);
-  }, [user]);
+  }, [user, isGuest]);
 
   useEffect(() => {
     fetchTransactions();
   }, [fetchTransactions]);
 
   const addTransaction = async (transaction: TransactionInput) => {
-    if (!user) return { error: new Error('Not authenticated') };
+    if (isGuest) {
+      const newTransaction: Transaction = {
+        ...transaction,
+        id: crypto.randomUUID(),
+        user_id: 'guest',
+        created_at: new Date().toISOString()
+      };
+      const updated = [newTransaction, ...transactions];
+      setTransactions(updated);
+      saveGuestTransactions(updated);
+      toast({
+        title: 'Transaction added',
+        description: `${transaction.title} has been added (Guest Mode).`
+      });
+      return { error: null };
+    }
 
     const { data, error } = await supabase
       .from('transactions')
-      .insert({
-        ...transaction,
-        user_id: user.id
-      })
+      .insert({ ...transaction, user_id: user!.id })
       .select()
       .single();
 
     if (error) {
-      toast({
-        title: 'Error adding transaction',
-        description: error.message,
-        variant: 'destructive'
-      });
+      toast({ title: 'Error adding transaction', description: error.message, variant: 'destructive' });
       return { error };
     }
 
     setTransactions(prev => [data as Transaction, ...prev]);
-    toast({
-      title: 'Transaction added',
-      description: `${transaction.title} has been added successfully.`
-    });
+    toast({ title: 'Transaction added', description: `${transaction.title} has been added successfully.` });
     return { error: null };
   };
 
   const updateTransaction = async (id: string, transaction: Partial<TransactionInput>) => {
-    if (!user) return { error: new Error('Not authenticated') };
+    if (isGuest) {
+      const updated = transactions.map(t => t.id === id ? { ...t, ...transaction } : t);
+      setTransactions(updated);
+      saveGuestTransactions(updated);
+      toast({ title: 'Transaction updated' });
+      return { error: null };
+    }
 
     const { data, error } = await supabase
       .from('transactions')
       .update(transaction)
       .eq('id', id)
-      .eq('user_id', user.id)
+      .eq('user_id', user!.id)
       .select()
       .single();
 
     if (error) {
-      toast({
-        title: 'Error updating transaction',
-        description: error.message,
-        variant: 'destructive'
-      });
+      toast({ title: 'Error updating transaction', description: error.message, variant: 'destructive' });
       return { error };
     }
 
-    setTransactions(prev => 
-      prev.map(t => t.id === id ? (data as Transaction) : t)
-    );
-    toast({
-      title: 'Transaction updated',
-      description: 'Your transaction has been updated successfully.'
-    });
+    setTransactions(prev => prev.map(t => t.id === id ? (data as Transaction) : t));
+    toast({ title: 'Transaction updated' });
     return { error: null };
   };
 
   const deleteTransaction = async (id: string) => {
-    if (!user) return { error: new Error('Not authenticated') };
+    if (isGuest) {
+      const updated = transactions.filter(t => t.id !== id);
+      setTransactions(updated);
+      saveGuestTransactions(updated);
+      toast({ title: 'Transaction deleted' });
+      return { error: null };
+    }
 
     const { error } = await supabase
       .from('transactions')
       .delete()
       .eq('id', id)
-      .eq('user_id', user.id);
+      .eq('user_id', user!.id);
 
     if (error) {
-      toast({
-        title: 'Error deleting transaction',
-        description: error.message,
-        variant: 'destructive'
-      });
+      toast({ title: 'Error deleting transaction', description: error.message, variant: 'destructive' });
       return { error };
     }
 
     setTransactions(prev => prev.filter(t => t.id !== id));
-    toast({
-      title: 'Transaction deleted',
-      description: 'Your transaction has been deleted.'
-    });
+    toast({ title: 'Transaction deleted' });
     return { error: null };
   };
 
   const totals = transactions.reduce(
     (acc, t) => {
-      if (t.type === 'income') {
-        acc.income += Number(t.amount);
-      } else {
-        acc.expense += Number(t.amount);
-      }
+      if (t.type === 'income') acc.income += Number(t.amount);
+      else acc.expense += Number(t.amount);
       return acc;
     },
     { income: 0, expense: 0 }
@@ -156,14 +170,5 @@ export const useTransactions = () => {
 
   const balance = totals.income - totals.expense;
 
-  return {
-    transactions,
-    loading,
-    addTransaction,
-    updateTransaction,
-    deleteTransaction,
-    refetch: fetchTransactions,
-    totals,
-    balance
-  };
+  return { transactions, loading, addTransaction, updateTransaction, deleteTransaction, refetch: fetchTransactions, totals, balance };
 };
